@@ -2,10 +2,10 @@ import React from 'react';
 
 import styled from 'styled-components';
 import db from '../db.json';
+
 import Footer from '../src/components/footer';
 import GitHubCorner from '../src/components/gitHubCorner';
 import QuizLogo from '../src/components/quizLogo';
-import { useRouter } from 'next/router';
 
 const BackgroundImage = styled.div`
   background-image: url(${db.bg});
@@ -110,51 +110,41 @@ const Form = styled.form`
 
 `;
 
-export default function Home() {
 
-  const router = useRouter();
-  const [name, setName] = React.useState('');
-
-  return (
-    
-    <BackgroundImage>
+export default function QuizPage(){
+    return (
+        <BackgroundImage>
       <QuizContainer>
-        <QuizLogo />
+       <QuizLogo />
 
         <Widget>
           <HeaderContent>
-            <h1>Teste seus conhecimentos</h1>
+            <h1>Qual a probabilidade de um gato amarelo ser macho?</h1>
           </HeaderContent>
-          <Widget.Content>
-            <p>O que você entende sobre gatos?</p>
-            <Form onSubmit={function (infoEvento){
-              infoEvento.preventDefault();
-              router.push(`/quizz?name=${name}`);
-              console.log("fazendo essa coisa aqui.");
-                }
-              }>
-              <input placeholder="Digite seu nome" onChange={function(info){
-                setName(info.target.value);
-              }} />
-              <button type="submit" disabled={name.length === 0}>
-                Vamos Começar {name}
-              </button>
-
-            </Form>
-          </Widget.Content>
+            <Widget.Content>
+                <Form>
+                    <button type="submit">
+                    75%
+                    </button>
+                    <button type="submit">
+                    50%
+                    </button>
+                    <button type="submit">
+                    25%
+                    </button>
+                    <button type="submit">
+                    10%
+                    </button>
+                </Form>
+            </Widget.Content>
         </Widget>
 
-        <Widget>
-          <Widget.Content>
-            Quizzes da galera
-
-          </Widget.Content>
-        </Widget>
+        
+       
         <Footer />
-        <GitHubCorner projectUrl="https://github.com/liviafernanda" />
       </QuizContainer>
 
     </BackgroundImage>
 
-  );
+    )
 }

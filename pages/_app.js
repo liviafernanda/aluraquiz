@@ -1,5 +1,9 @@
-import { createGlobalStyle, ThemeProvider } from 'styled-components'
-import db from '../db.json'
+import React from 'react';
+
+import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import Head from 'next/head';
+
+import db from '../db.json';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -34,10 +38,16 @@ const theme = db.theme;
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <GlobalStyle />
+      <Head>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&display=swap" rel="stylesheet" />
+        <title>Quiz Alura</title>
+      </Head>
+
       <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <Component {...pageProps} />
       </ThemeProvider>
     </>
-  )
+  );
 }
