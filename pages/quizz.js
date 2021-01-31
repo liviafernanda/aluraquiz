@@ -1,29 +1,18 @@
 import React from 'react';
-
 import styled from 'styled-components';
 import db from '../db.json';
-
+// eslint-disable-next-line import/no-duplicates
+import Button from '../src/components/button';
 import Footer from '../src/components/footer';
-import GitHubCorner from '../src/components/gitHubCorner';
 import QuizLogo from '../src/components/quizLogo';
+import Widget from '../src/components/estilos';
+import Form from '../src/components/alternativeForm';
 
 const BackgroundImage = styled.div`
   background-image: url(${db.bg});
   flex: 1;
   background-size: cover;
   background-position: center;
-`;
-
-const HeaderContent = styled.header`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 18px 32px;
-  background-color: ${({ theme }) => theme.colors.laranjaHallow};
-  
-  * {
-    margin: 0;
-  }
 `;
 
 export const QuizContainer = styled.div`
@@ -38,113 +27,212 @@ export const QuizContainer = styled.div`
 
 `;
 
-const Widget = styled.div`
-  margin-top: 24px;
-  margin-bottom: 24px;
-  border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
-  background-color: ${({ theme }) => theme.colors.roxoHallow};
-  border-radius: 4px;
-  overflow: hidden;
+// eslint-disable-next-line react/prop-types
+function ResultWidget({ results }) {
+  const total = results.filter((t) => t).length;
+  return (
+    <Widget>
+      <Widget.Header>
+        Resultados
+      </Widget.Header>
 
-  h1, h2, h3 {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 0;
+      <Widget.Content>
+        <p>
+          Você acertou
+          {' '}
+          {/*
+          {results.reduce((somatorioAtual, resultAtual) => {
+            const isAcerto = resultAtual === true;
+            if (isAcerto) {
+              return (somatorioAtual + 1);
+            }
+            return somatorioAtual;
+          })}
+           */}
+          {total}
+          {' '}
+          perguntas
+        </p>
+        <ul>
+          {results.map((result, index) => {
+            if (result === true) {
+              return (
+                <li>
+                  RESULTADO
+                  {' '}
+                  {index + 1}
+                  :
+                  Acertou!
+                </li>
+              );
+            }
+            return (
+              <li>
+                RESULTADO
+                {' '}
+                {index + 1}
+                : Errou!
+                {' '}
+              </li>
+            );
+          })}
+        </ul>
+      </Widget.Content>
+    </Widget>
+
+  );
+}
+
+function LoadingWidget() {
+  return (
+    <Widget>
+      <Widget.Header>
+        Carregando
+      </Widget.Header>
+
+      <Widget.Content>
+        Conteúdo
+      </Widget.Content>
+    </Widget>
+
+  );
+}
+
+function QuestionWidget({
+  // eslint-disable-next-line react/prop-types
+  questions, totalQuestoes, questionIndex, onSubmit, addResult,
+}) {
+  const [selectedAlternative, setSelectedAlternative] = React.useState(undefined);
+  const [isQuestionSubmited, setIsQuestionSubmited] = React.useState();
+  const questionId = `question__${questionIndex}`;
+  const isCorrect = selectedAlternative === questions.answer;
+  const hasAlternativeSelected = selectedAlternative !== undefined;
+  return (
+    <Widget>
+      <Widget.Header>
+        <h1>{`Pergunta ${questionIndex + 1}  de  ${totalQuestoes}`}</h1>
+      </Widget.Header>
+      <img
+        alt="gatos"
+        style={{ width: '100%', height: '150px', objectFit: 'cover' }}
+        // eslint-disable-next-line react/prop-types
+        src={questions.image}
+      />
+      <Widget.Content>
+        { /* eslint-disable-next-line react/prop-types */ }
+        <h2>{questions.title}</h2>
+        { /* eslint-disable-next-line react/prop-types */ }
+        <p>{questions.description}</p>
+
+        <Form onSubmit={(infosDoEvento) => {
+          infosDoEvento.preventDefault();
+          setIsQuestionSubmited(true);
+          setTimeout(() => {
+            addResult(isCorrect);
+            onSubmit();
+            setIsQuestionSubmited(false);
+            setSelectedAlternative(undefined);
+          }, 4 * 1000);
+        }}
+        >
+          { /* eslint-disable-next-line react/prop-types */ }
+          {questions.alternatives.map((alternative, alternativeindex) => {
+            const alternativeId = `alternative__${alternativeindex}`;
+            const alternativeStatus = isCorrect ? 'SUCCESS' : 'ERROR';
+            const isSelected = selectedAlternative === alternativeindex;
+            return (
+              <Widget.Topic
+                htmlFor={alternativeId}
+                key={alternativeId}
+                as="label"
+                data-status={isQuestionSubmited && alternativeStatus}
+                data-selected={isSelected}
+              >
+                <input
+                  style={{ display: 'none' }}
+                  id={alternativeId}
+                  type="radio"
+                  onChange={() => setSelectedAlternative(alternativeindex)}
+                  name={questionId}
+                  checked={selectedAlternative === alternativeindex}
+                />
+                {alternative}
+
+              </Widget.Topic>
+            );
+          })}
+
+          { isQuestionSubmited && isCorrect && <p>Resposta Certa! {questions.justificativa}</p>}
+          { isQuestionSubmited && !isCorrect && <p>Resposta Errada! {questions.justificativa}</p>}
+
+          <Button type="submit" disabled={!hasAlternativeSelected}>
+            Confirmar
+          </Button>
+          { /* <p>selectedAlternative: {`${selectedAlternative}`}</p> */}
+          { /* eslint-disable-next-line react/prop-types */ }
+
+        </Form>
+      </Widget.Content>
+    </Widget>
+  );
+}
+
+const screenStates = {
+  LOADING: 'LOADING',
+  QUIZ: 'QUIZ',
+  RESULT: 'RESULT',
+};
+export default function QuizPage() {
+  const [screenState, setScreenState] = React.useState(screenStates.LOADING);
+  const [results, setResults] = React.useState([]);
+  const totalQuestoes = db.questions.length;
+  const [currentQuestion, setCurrentQuestion] = React.useState(0);
+  const questionIndex = currentQuestion;
+  const questions = db.questions[questionIndex];
+
+  function addResult(result) {
+    setResults([
+      ...results,
+      result,
+    ]);
   }
-  p {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1;
-    
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setScreenState(screenStates.QUIZ);
+    }, 1 * 1000);
+    // nasce === didMont
+  }, []);
+
+  function handleSubmit() {
+    const nextQuestion = questionIndex + 1;
+    if (nextQuestion < totalQuestoes) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setScreenState(screenStates.RESULT);
+    }
   }
-`;
-Widget.Content = styled.div`
-  padding: 24px 32px 32px 32px;
-  & > *:first-child {
-    margin-top: 0;
-  }
-  & > *:last-child {
-    margin-bottom: 0;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-`;
-
-const Form = styled.form`
-  input{
-    background-color: ${({ theme }) => theme.colors.pretoHallow};
-    font-size: 14px;
-    border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
-    display: flex;
-    margin: 20px 10px 20px 10px;
-    min-width: 400px;
-    padding: 4%;
-    color: ${({ theme }) => theme.colors.contrastText}    
-  }
-
-  button {
-    font-size: 14px;
-    display: flex;
-    margin: 10px;
-    min-width: 400px;
-    padding: 2%;
-    background: green;
-    border-radius: 5px;
-    color: white;
-    
-
-  }
-
-  /* button {
-    background-color: ${({ theme }) => theme.colors.secondary};
-    font-size: 14px;
-    border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
-    display: flex;
-    margin: 10px;
-    min-width: 350px;
-    padding: 2%;
-    cursor: pointer; */
-
-`;
-
-
-export default function QuizPage(){
-    return (
-        <BackgroundImage>
+  return (
+    <BackgroundImage>
       <QuizContainer>
-       <QuizLogo />
+        <QuizLogo />
+        {screenState === screenStates.QUIZ && (
+          <QuestionWidget
+            questions={questions}
+            totalQuestoes={totalQuestoes}
+            questionIndex={questionIndex}
+            onSubmit={handleSubmit}
+            addResult={addResult}
+          />
+        )}
+        {screenState === screenStates.LOADING && <LoadingWidget />}
 
-        <Widget>
-          <HeaderContent>
-            <h1>Qual a probabilidade de um gato amarelo ser macho?</h1>
-          </HeaderContent>
-            <Widget.Content>
-                <Form>
-                    <button type="submit">
-                    75%
-                    </button>
-                    <button type="submit">
-                    50%
-                    </button>
-                    <button type="submit">
-                    25%
-                    </button>
-                    <button type="submit">
-                    10%
-                    </button>
-                </Form>
-            </Widget.Content>
-        </Widget>
+        {screenState === screenStates.RESULT && <ResultWidget results={results} />}
 
-        
-       
         <Footer />
       </QuizContainer>
 
     </BackgroundImage>
 
-    )
+  );
 }

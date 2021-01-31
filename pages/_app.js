@@ -5,6 +5,7 @@ import Head from 'next/head';
 
 import db from '../db.json';
 
+const theme = db.theme;
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
@@ -15,9 +16,9 @@ const GlobalStyle = createGlobalStyle`
     /* New styles */
     display: flex;
     flex-direction: column;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Chau Philomene One', 'Viga', 'Yeseva One','Lato', sans-serif;
     // Deixa branco no começo
-    color: ${({ theme }) => db.theme.colors.contrastText};
+    color: ${({ theme }) => theme.colors.contrastText};
   }
   html, body {
     min-height: 100vh;
@@ -27,8 +28,8 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
   }
-`
-const theme = db.theme;
+`;
+
 /* const theme = {
   colors: {
     primary: '#0070f3',
@@ -40,6 +41,7 @@ export default function App({ Component, pageProps }) {
     <>
       <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Chau+Philomene+One&family=Viga&family=Yeseva+One&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,900&display=swap" rel="stylesheet" />
         <title>Quiz Alura</title>
       </Head>

@@ -1,16 +1,39 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import db from '../db.json';
+import db from '../../db.json';
 
-const BackgroundImage = styled.div`
-  background-image: url(${db.bg});
-  flex: 1;
-  background-size: cover;
-  background-position: center;
+const Widget = styled.div`
+  margin-top: 24px;
+  margin-bottom: 24px;
+  border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
+  background-color: ${({ theme }) => theme.colors.roxoHallow};
+  border-radius: 4px;
+  overflow: hidden;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+    
+  h2 {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+  
+  h3, p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1;
+    
+  }
 `;
 
-const HeaderContent = styled.header`
+Widget.Header = styled.header`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -22,39 +45,6 @@ const HeaderContent = styled.header`
   }
 `;
 
-export const QuizContainer = styled.div`
-  width: 100%;
-  max-width: 500px;
-  padding-top: 45px;
-  margin: auto 10%;
-  @media screen and (max-width: 500px){
-    margin: auto;
-    padding: 15px;
-  }
-
-`;
-
-const Widget = styled.div`
-  margin-top: 24px;
-  margin-bottom: 24px;
-  border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
-  background-color: ${({ theme }) => theme.colors.roxoHallow};
-  border-radius: 4px;
-  overflow: hidden;
-
-  h1, h2, h3 {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 0;
-  }
-  p {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1;
-    
-  }
-`;
 Widget.Content = styled.div`
   padding: 24px 32px 32px 32px;
   & > *:first-child {
@@ -67,4 +57,50 @@ Widget.Content = styled.div`
     list-style: none;
     padding: 0;
   }
+ 
 `;
+
+Widget.Galera = styled.div`
+    padding: 24px 48px 32px 10px;
+   
+    }
+    li {
+        background-color: ${({theme}) => theme.colors.mainBg};
+        padding: 10px;
+        border: 1px solid black;
+        list-style: none;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+
+    li:hover {
+        opacity: .5;
+    }
+    
+    a {
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px;
+        
+    }
+`;
+
+Widget.Topic = styled.a`
+  outline: 0;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.contrastText};
+  background-color: ${({ theme }) => `${theme.colors.primary}40`};
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border-radius: ${({ theme }) => theme.borderRadius};
+  transition: .3s;
+  display: block;
+  
+  &:hover,
+  &:focus {
+    opacity: .5;
+  }
+`;
+
+export default Widget;

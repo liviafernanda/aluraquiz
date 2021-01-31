@@ -1,33 +1,81 @@
 {
     "bg": "https://mcdn.wallpapersafari.com/medium/83/8/9jAhkL.jpg",
-    "title": "Quiz CSS da Alura",
-    "description": "Teste os seus conhecimentos sobre CSS e vamos ver quantos layouts você vai deixar de quebrar",
+    "title": "Quiz de gatos da Alura",
+    "description": "Teste os seus conhecimentos sobre gatos e vamos ver quantos felinos você é capaz de amar!",
     "questions": [
       {
-        "image": "https://media.giphy.com/media/xUOxf3yDKCuwpOlT3i/giphy.gif",
-        "title": "Como fazer um seletor por id via CSS?",
+        "image": "https://static1.patasdacasa.com.br/articles/9/17/49/@/8373-gato-laranja-ruivo-ou-amarelo-e-so-amor-articles_media_desktop-2.jpg",
+        "title": "Qual a probabilidade de um gato amarelo ser macho?",
         "description": "Essa é pra aquecer",
-        "answer": 2,
+        "answer": 0,
+        "justificativa": "Para cada 4 gatos amarelos, 3 são machos",
         "alternatives": [
-          ".elemento",
-          "*elemento",
-          "#elemento",
-          "%elemento"
+          "75%",
+          "50%",
+          "25%",
+          "10%"
         ]
       },
       {
-        "image": "https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif",
-        "title": "Como fazer um background gradiente com css?",
-        "description": "Faz tempo em haha",
-        "answer": 0,
+        "image": "https://razasdegato.info/wp-content/uploads/2020/07/Dise%C3%B1o-sin-t%C3%ADtulo-5-min.png",
+        "title": "Em qual cultura os gatos eram adorados?",
+        "description": "Agora eu quero ver, hein!",
+        "answer": 3,
+        "justificativa": "A adoração dos gatos no Egito surgiu devido à deusa Bastet!",
         "alternatives": [
-           "background: linear-gradient(#e66465, #9198e5);",
-           "background: gradient(#e66465, #9198e5);"
+           "Cultura pagã",
+           "Cultura italiana",
+           "Cultura viking",
+           "Cultura egípcia"
+        ]
+      },
+
+      {
+        "image": "https://www.aecmemphis.com/files/animal-emergency-center-cat-sleep.jpeg",
+        "title": "Quantas horas por dia o gato passa dormindo?",
+        "description": "Eita, tá ficando hard!",
+        "answer": 2,
+        "justificativa": "Em média um gato passa 15 a 18 horas do dia dormindo.",
+        "alternatives": [
+           "2 horas/dia",
+           "8 horas/dia",
+           "18 horas/dia",
+           "24 horas/dia"
+        ]
+      },
+
+      {
+        "image": "https://csajardins.com.br/wp-content/uploads/1-9.jpg",
+        "title": "Por que os gatos gostam de se esfregar na nossa perna?",
+        "description": "Bora boraa!",
+        "answer": 0,
+        "justificativa": "Gatos possuem glândulas com ferormônios na região dos bigodes e esfregam para deixar seu odor.",
+        "alternatives": [
+           "Para mostrar afeto e marcar território",
+           "Para gerar calor e ver se pega fogo",
+           "Para sentir se é o humano que ele quer matar ou não",
+           "Para tirar a estática e limpar seus pelos"
+        ]
+      },
+
+      {
+        "image": "https://unionlakepetservices.com/wp-content/uploads/2020/04/ULPS-Cat-sleep-shutterstock_1193130121.jpg",
+        "title": "Como é denominada a pessoa que tem atração por gatos?",
+        "description": "É muito amor pelos bichanos!",
+        "answer": 2,
+        "justificativa": "Do grego áilouros (gato) e filos (atração).",
+        "alternatives": [
+           "gatófilo",
+           "felinófilo",
+           "ailurófilo",
+           "Não sei... só sei que amo esse arrombadinho!"
         ]
       }
     ],
     "external": [
-      ""
+      "https://free-horses-quiz-git-main.hadirga.vercel.app/",
+      "https://aluraquiz-simpsons.vercel.app/",
+      "https://doctor-who-quiz.emanuelpna.vercel.app/"
     ],
     "theme": {
       "colors": {

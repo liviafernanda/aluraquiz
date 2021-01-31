@@ -1,29 +1,21 @@
 import React from 'react';
-
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/router';
+
 import db from '../db.json';
 import Footer from '../src/components/footer';
 import GitHubCorner from '../src/components/gitHubCorner';
 import QuizLogo from '../src/components/quizLogo';
-import { useRouter } from 'next/router';
+import Input from '../src/components/input';
+import Button from '../src/components/button';
+import Widget from '../src/components/estilos';
 
 const BackgroundImage = styled.div`
   background-image: url(${db.bg});
   flex: 1;
   background-size: cover;
   background-position: center;
-`;
-
-const HeaderContent = styled.header`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 18px 32px;
-  background-color: ${({ theme }) => theme.colors.laranjaHallow};
-  
-  * {
-    margin: 0;
-  }
 `;
 
 export const QuizContainer = styled.div`
@@ -38,119 +30,94 @@ export const QuizContainer = styled.div`
 
 `;
 
-const Widget = styled.div`
-  margin-top: 24px;
-  margin-bottom: 24px;
-  border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
-  background-color: ${({ theme }) => theme.colors.roxoHallow};
-  border-radius: 4px;
-  overflow: hidden;
-
-  h1, h2, h3 {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 0;
-  }
-  p {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 1;
-    
-  }
-`;
-Widget.Content = styled.div`
-  padding: 24px 32px 32px 32px;
-  & > *:first-child {
-    margin-top: 0;
-  }
-  & > *:last-child {
-    margin-bottom: 0;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-`;
-
-const Form = styled.form`
-  input{
-    background-color: ${({ theme }) => theme.colors.pretoHallow};
-    font-size: 14px;
-    border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
-    display: flex;
-    margin: 20px 10px 20px 10px;
-    min-width: 400px;
-    padding: 4%;
-    color: ${({ theme }) => theme.colors.contrastText}    
-  }
-
-  button {
-    font-size: 14px;
-    display: flex;
-    margin: 10px;
-    min-width: 400px;
-    padding: 2%;
-    background: green;
-    border-radius: 5px;
-    color: white;
-    
-
-  }
-
-  /* button {
-    background-color: ${({ theme }) => theme.colors.secondary};
-    font-size: 14px;
-    border: 1px solid ${({ theme }) => theme.colors.laranjaHallow};
-    display: flex;
-    margin: 10px;
-    min-width: 350px;
-    padding: 2%;
-    cursor: pointer; */
-
-`;
-
 export default function Home() {
-
   const router = useRouter();
   const [name, setName] = React.useState('');
 
   return (
-    
+
     <BackgroundImage>
       <QuizContainer>
         <QuizLogo />
 
-        <Widget>
-          <HeaderContent>
-            <h1>Teste seus conhecimentos</h1>
-          </HeaderContent>
+        <Widget 
+          as={motion.section}
+          transition = {{ dalay: 0, duration: 0.5}}
+          variants = {{
+            show: {opacity: 1, y: '0'},
+            hidden: { opacity: 0, y: '100%'},
+            }}
+            initial = "hidden"
+            animate = "show"
+        >
+          <Widget.Header>
+            <h1>{db.description}</h1>
+          </Widget.Header>
           <Widget.Content>
-            <p>O que você entende sobre gatos?</p>
-            <Form onSubmit={function (infoEvento){
+            <p>{db.title}</p>
+            <form onSubmit={function (infoEvento) {
               infoEvento.preventDefault();
               router.push(`/quizz?name=${name}`);
-              console.log("fazendo essa coisa aqui.");
-                }
-              }>
-              <input placeholder="Digite seu nome" onChange={function(info){
-                setName(info.target.value);
-              }} />
-              <button type="submit" disabled={name.length === 0}>
-                Vamos Começar {name}
-              </button>
+            }}
+            >
+              <Input
+                name="nomeDoUsuario"
+                onChange={(info) => { setName(info.target.value);}}
+                placeholder="Digite seu nome"
+              />
+              <Button type="submit" disabled={name.length === 0}>
+                Vamos Começar, {name}
+              </Button>
 
-            </Form>
+            </form>
           </Widget.Content>
         </Widget>
 
-        <Widget>
-          <Widget.Content>
-            Quizzes da galera
+        <Widget
+        as={motion.section} 
+        transition = {{ dalay: 0.5, duration: 0.5}}
+        variants = {{
+          show: {opacity: 1, x: '0'},
+          hidden: { opacity: 0, x: '100%'},
+          }}
+          initial = "hidden"
+          animate = "show">
+          <Widget.Header>
+              <h1>
+                Quizzes da galera
+              </h1>
+            </Widget.Header>
+          <Widget.Galera>
+            <p>Confira outros quizzes realizados durante a imersão React da Alura e divirta-se!</p>
+          <ul>
+             <li>
+              <a href="https://free-horses-quiz-git-main.hadirga.vercel.app/" target="_blank">Quiz sobre Cavalos</a>
+          </li>
 
-          </Widget.Content>
+          <li>
+              <a href="https://aluraquiz-simpsons.vercel.app/" target="_blank">
+                Quiz sobre Os Simpsons
+              </a>
+          </li>
+
+          <li>
+              <a href="https://doctor-who-quiz.emanuelpna.vercel.app/" target="_blank">
+                Quiz sobre Dr. Who
+              </a>
+          </li>
+          </ul>
+          </Widget.Galera>
         </Widget>
-        <Footer />
+        <Footer
+        as={motion.section} 
+        transition = {{ dalay: 0.5, duration: 0.5}}
+        variants = {{
+          show: {opacity: 1, x: '0'},
+          hidden: { opacity: 0, x: '100%'},
+          }}
+          initial = "hidden"
+          animate = "show"
+        />
         <GitHubCorner projectUrl="https://github.com/liviafernanda" />
       </QuizContainer>
 
